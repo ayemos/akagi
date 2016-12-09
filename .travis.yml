@@ -1,0 +1,24 @@
+deploy:
+  on:
+    condition: "$TOXENV == py35"
+    repo: ayemos/akagi
+    tags: true
+  user: ayemos
+  provider: pypi
+  distributions: sdist bdist_wheel
+  password:
+    secure: rnfUiYhHudXPEROL3Qj21eMkmTUYGWIwnvK8B59M3xGV9A7UMb3sCR1UVtj5tvLKtVHAYCLyR+gntfFStsH+mG1uzqGt/+cEgII+4ChUNYUuMHNErmf70ukZbs7MVe6xtW2SLp5dwyZo/H/e+xyDN819qhR6TTHuytQdNZmu57UswJJN3ho+i2lxIouSE6bk3kLfvfe9XgU1/hj31tsy4WHgxmA1KuCTzQtup9c4iA4VQhYlrDCUSaQsbDC/HRL1wYVh2SDKFgSTjnZYaFYg6kMLiCW6eKyejYn1GlRCL4n8oEODoZPO2FchmOQW+1AoUa7Nv2Y4dOO5L8S7C46Vh27PHkPSp0qOa2pfwErXuJCA0IRkBttmISnMx/K34vD4f53QwVq1qo6wnmWjypJqn7UQr4yMHptg4hsg72BIlIv/8zqj0ZzKt8zRyxAnPBSwmSy4EKkLqNIzHNuw2alkj1oaiR8yzZPPy6Il5hcEokEMKWxTdRQb2UPbncr+lZ/5XGCD/iHR11DqAjIuINdihsLAFhM1ueHrJ20+b/cwOdzLnSVNtv4kaex8hly3jj4qLjs7uYQUNE2UgkB9HpizHON//mRkUU5d/V9gOhPSmm4KrK8669p+xr9pIyz8Guti3nqnuOtG8kFEioKzdvVF5jcbrAxJzL/yxeD3XtmBeiU=
+env:
+- TOXENV=py35
+- TOXENV=py34
+- TOXENV=py27
+install: pip install -U tox
+language: python
+python: 3.5
+script: tox -e ${TOXENV}
+after_success:
+  - bundle exec codeclimate-test-reporter
+addons:
+  code_climate:
+    repo_token:
+      secure: "DNoPaXlizVhhEYlboYX3Nw+TyjboeRwy678DjeyBj4wWxIE0wL8tVNVZhSHP05ToSeCvXBCgcUwZ/iyjLFU3HMkxcySj4sm/7Gaej3xr9nemwZuo/m9gz5jVMOIF42ljb/YGR1SJos+hEvkfbUntzWfzsw8AGxomdcNXDroNCAlF4r20PpihuuY2rMclEGIxs+k+OOyz72Fi8ZtoS06BeGWTU2xc2+FH4rficRSCM9foi34rxlRpuwIGbHz0EMrdsL2GEJg0Bu8tYDhJu8zGabLZVK3aXLQGEw6OVtpduICf/jTrXmLjdr6orkUhcbIb/8vwQwU3c8o2JusTJSzA/pVrKElX1HTT+PwqBbi9iD0fwSnXdK1okhtP4IKAS700/QuwK89Kg6WUJVMDKVCWuLLxgFw5Bvr27ZRdllKMXE/Gkjtgp5j8LDSNhHddhyLdltACt2nk9Y6DVmq/jPWq5LciDaIdJ5E48YXquYx5SDux59pcSKhze0BAixwrx8ed9WFFxw0uWKiSInq4UrQm64b+lNAc7+H5bvIhdTmh0XS9Q/XVQIXTLWJFZsFPy0jJvLD8o0aP0MdsQFDOHIbG0vcuah6qi5fuvcUcj03lKWrxHm931CEsxh+aI/7N3ZffDZf9aZVqRMFPhY2p7tjFn5mO1Pbjehp55nvNQejGtjk="
