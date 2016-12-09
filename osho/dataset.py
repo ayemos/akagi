@@ -1,54 +1,66 @@
 from collections import namedtuple
+import itertools
+import os
+import bisect
+from six.moves.urllib.parse import urlparse
+
+import numpy as np
+
+from osho.s3_helper import S3Helper
+from osho.iterator import DatasetIterator
+
 
 class Dataset(object):
-    def __len__(self):
-        raise NotImplementedError
+    def get_example(self, _):
+        return NotImplementedError
 
-    def data_at(self, i):
-        raise NotImplementedError
-
-class LabeledDataset(Dataset):
-    def labels(self):
-        raise NotImplementedError
-
-    def label_at(self, i):
-        raise NotImplementedError
-
-class LabeledImageDataset(LabeledDataset):
-    _LabeledImageData = namedtuple('LabeledImageData', ['image', 'label'])
-
-    def __init__(self, images, labels):
-        super(LabeledImageDataset, self).__init__()
-
-        if len(images) != len(labels):
-            raise Exception("HOGEEEEE")
-
-        self._images = images
-        self._labels = labels
-
-        self._i = 0
-
-    def __len__(self):
-        return len(self._images)
+    def get_length(self):
+        return NotImplementedError
 
     def __iter__(self):
-        return self
+        return DatasetIterator(self)
 
-    def labels(self):
-        return self._labels
+    @classmethod
+    def from_url(cls, urlstr):
+        url = urlparse(urlstr)
 
-    def data_at(self, i):
-        return self._images[i]
+        if url.scheme == 's3':
+            from osho.datasets import S3Dataset
+            return S3Dataset.by_prefix(url.netloc, url.path[1:])
+        # elif url.scheme == 'ftp':
+        else:
+            raise Exception("Unsupported scheme: %s" % url.scheme)
 
-    def label_at(self, i):
-        return self._labels[i]
+    # TODO: support local fs
+    '''
+    @classmethod
+    def from_filesystem(cls, path):
+        print('# TODO: support local fs')
+    '''
 
-    def __next__(self):
-        i = self._i
 
-        if i == len(self._images):
-            raise StopIteration()
 
-        self._i += 1
+class LinkedDataset(Dataset):
+    def __init__(self, *datasets):
+        self._datasets = datasets
+        self._length = 0
+        self._offsets = [0]
 
-        return self._LabeledImageData(self.data_at(i), self.label_at(i))
+        for d in datasets:
+            l = d.get_length()
+            self._length += l
+            self._offsets.append(self._length)
+
+        self._offsets = self._offsets[:-1] # last offset is not necessary
+
+    def get_example(self, i):
+        j = bisect.bisect(self._offsets, i) - 1
+
+        if j == len(self._offsets):
+            return self._datasets[-1].get_example(i - self._offsets[-1]) # Delegating ValueError to actual Dataset
+        else:
+            return self._datasets[j].get_example(i - self._offsets[j])
+
+    def get_length(self):
+        return self._length
+

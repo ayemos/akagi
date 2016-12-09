@@ -1,46 +1,69 @@
+from collections import namedtuple
+
 from osho.evaluator import Evaluator
-from osho.models.classifier import Classifier
-from osho.dataset import LabeledDataset
 
-class MultiClassClassificationEvaluator(Evaluator):
-    def __init__(self, classifier, labeled_dataset):
-        super(MultiClassClassificationEvaluator, self).__init__()
 
-        if not (isinstance(classifier, Classifier) and isinstance(labeled_dataset, LabeledDataset)):
-            raise Exception("hogeee")
+class ClassificationEvaluator(Evaluator):
+    CorrectResult = namedtuple('CorrectResult', ['data', 'label'])
+    WrongResult = namedtuple('WrongResult', ['data', 'predict', 'actual'])
 
-        initial_counts = dict([[l, 0] for l in labeled_dataset.labels()])
-        self._tp_counts = self._fp_counts = self._tn_counts = self._fn_counts = initial_counts
+    def __init__(self, classifier, dataset, extensions=None):
+        super(ClassificationEvaluator, self).__init__(extensions)
 
-        self._n = len(labeled_dataset)
+        self._corrects = []
+        self._wrongs = []
 
         self._classifier = classifier
-        self._dataset = labeled_dataset
+        self._dataset = dataset
+        self._num_processed = 0
 
     def evaluate(self, force=False):
-        # TODO: type check on the model?
-        for d in self._dataset:
-            answer = d.label
-            pred = self._classifier.classify(d)
+        for e in self._dataset:
+            answer = e[1]
+            data = e[0]
 
-            # XXX: multi class classification? (what if get an array as prediction?)
+            pred = self._classifier.classify(data)
+
             if answer == pred:
-                self._add(self._tp_counts, pred, 1)
-
-                for l in dataset.labels:
-                    self._add(self._tn_counts, l, 1)
+                self._corrects.append(
+                        ClassificationEvaluator.CorrectResult(
+                            data=data,
+                            label=answer
+                            )
+                        )
             else:
-                self._add(self._fp_counts, pred, 1)
-                self._add(self._fn_counts, answer, 1)
+                self._wrongs.append(
+                        ClassificationEvaluator.WrongResult(
+                            data=data,
+                            predict=pred,
+                            actual=answer
+                            )
+                        )
+
+            self._num_processed += 1
+            self.step()
+
+    def get_progress(self):
+        return self._num_processed / self._dataset.get_length()
+
+    def _tps(self, label):
+        # verbose list() call for python2/3 compatibility
+        return len(list(filter(lambda e: e.label == label, self._corrects)))
+
+    def _fps(self, label):
+        return len(list(filter(lambda e: e.predict == label, self._wrongs)))
+
+    def _fns(self, label):
+        return len(list(filter(lambda e: e.actual == label, self._wrongs)))
 
     def precision(self, label):
-        return self._tp_counts[label] / (self._tp_counts[label] + self._fp_counts[label])
+        tps = self._tps(label)
+        fps = self._fps(label)
+
+        return tps / (tps + fps)
 
     def recall(self, label):
-        return self._tp_counts[label] / (self._tp_counts[label] + self._fn_counts[label])
+        tps = self._tps(label)
+        fns = self._fns(label)
 
-    def _add(self, counts, klass, n):
-        if klass in self._tp_counts:
-            self._tp_counts[klass] += n
-        else:
-            self._tp_counts[klass] = n
+        return tps / (tps + fns)

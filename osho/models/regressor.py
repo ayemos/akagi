@@ -1,2 +1,0 @@
-class Regressor(Model):
-    pass
