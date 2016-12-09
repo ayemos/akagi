@@ -1,0 +1,2 @@
+class ImageRegressor(Regressor):
+    pass
