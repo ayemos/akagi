@@ -34,10 +34,10 @@ Features
 Installation
 -------------
 
-::
+Install via pip::
   pip install osho
 
-or::
+or from source::
 
   $ git clone https://github.com/ayemos/osho osho
   $ cd osho
