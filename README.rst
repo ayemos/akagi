@@ -19,6 +19,7 @@ osho
 
 
 ###########
+osho
 ###########
 
 * Free software: MIT license
@@ -33,17 +34,14 @@ Features
 Installation
 -------------
 
-```
-pip install osho
-```
+::
+  pip install osho
 
-or
+or::
 
-```
-$ git clone https://github.com/ayemos/osho osho
-$ cd osho
-$ python setup.py install
-```
+  $ git clone https://github.com/ayemos/osho osho
+  $ cd osho
+  $ python setup.py install
 
 --------
 Example
@@ -54,6 +52,5 @@ Example
 Credits
 --------
 
-This package was created with
-`Cookiecutter <https://github.com/audreyr/cookiecutter)`_ and the
+This package was created with `Cookiecutter <https://github.com/audreyr/cookiecutter>`_ and the
 `audreyr/cookiecutter-pypackage <https://github.com/audreyr/cookiecutter-pypackage>`_ project template.
