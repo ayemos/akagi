@@ -1,9 +1,6 @@
-from collections import namedtuple
-import itertools
 import os
 from six.moves.urllib.parse import urlparse
 
-import numpy as np
 
 from osho.s3_helper import S3Helper
 from osho.dataset import Dataset, LinkedDataset

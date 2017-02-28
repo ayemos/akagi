@@ -3,6 +3,14 @@ from osho.s3_helper import S3Helper
 
 
 class S3Dataset(Dataset):
+
+    """ Dataset abstruction for datas on Amazon S3.
+
+    using class method :meth:`by_prefix`, you can have transparent access to
+    datas on specified bucket under spceified prefix via :meth:`get_length` and
+    :meth: `get_example` as being Dataset subclass.
+    """
+
     @classmethod
     def by_prefix(self, bucket, prefix):
         keys = [obj.key for obj in S3Helper.resource().Bucket(bucket).objects

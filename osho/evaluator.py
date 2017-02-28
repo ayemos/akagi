@@ -1,7 +1,6 @@
-from collections import namedtuple
-
-
 class Evaluator(object):
+    """Base class of Evaluators"""
+
     def __init__(self, extensions):
         self._extensions = extensions
 

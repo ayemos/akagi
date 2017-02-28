@@ -4,10 +4,26 @@ osho.datasets package
 Submodules
 ----------
 
-osho.datasets.image_dataset module
+osho.datasets.label module
+--------------------------
+
+.. automodule:: osho.datasets.label
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+osho.datasets.s3_dataset module
+-------------------------------
+
+.. automodule:: osho.datasets.s3_dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+osho.datasets.tuple_dataset module
 ----------------------------------
 
-.. automodule:: osho.datasets.image_dataset
+.. automodule:: osho.datasets.tuple_dataset
     :members:
     :undoc-members:
     :show-inheritance:

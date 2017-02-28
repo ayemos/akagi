@@ -5,6 +5,7 @@ osho
 [![image](https://img.shields.io/travis/ayemos/osho.svg)](https://travis-ci.org/ayemos/osho)
 [![Documentation Status](https://readthedocs.org/projects/osho/badge/?version=latest)](https://osho.readthedocs.io/en/latest/?badge=latest)
 [![Updates](https://pyup.io/repos/github/ayemos/osho/shield.svg)](https://pyup.io/repos/github/ayemos/osho/)
+[![Coverage Status](https://coveralls.io/repos/github/ayemos/osho/badge.svg?branch=master)](https://coveralls.io/github/ayemos/osho?branch=master)
 
 Osho
 

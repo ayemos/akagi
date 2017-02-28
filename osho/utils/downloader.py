@@ -4,6 +4,7 @@ import urllib.request
 
 from boto3 import resource, client
 
+
 class Downloader(object):
     def __init__(self, data_directory_path='/tmp'):
         self._data_directory_path = data_directory_path
@@ -12,7 +13,7 @@ class Downloader(object):
 
     def maybe_download(self, url, sha256=None, force=False):
         url_splitted = url.split('/')
-        schema = url_splitted[0][:-1] # http://... => http
+        schema = url_splitted[0][:-1]  # http://... => http
         path = os.path.join(*url_splitted[1:])
 
         local_filepath = self._data_directory_path + '/' + path
