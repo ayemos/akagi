@@ -22,13 +22,13 @@ Installation
 --------
 
 ```
-pip install -i <https://pypi.ckpd.co/pypi/> osho
+pip install osho
 ```
 
 or
 
 ```
-$ git clone https://ghe.ckpd.co/yuichiro-someya/osho osho
+$ git clone https://github.com/ayemos/osho osho
 $ cd osho
 $ python setup.py install
 ```
