@@ -18,22 +18,8 @@ class ClassificationEvaluator(Evaluator):
         self._dataset = dataset
         self._num_processed = 0
 
-    def __getstate__(self):
-        """ This is called before pickling. """
-        state = self.__dict__.copy()
-        del state['_classifier']
-        del state['_dataset']
-        return state
-
-    def __setstate__(self, state):
-        """ This is called while unpickling. """
-        self.__dict__.update(state)
-
     def evaluate(self, force=False, n_process=1):
-        if n_process > 1:
-            self._evaluate_mp(n_process, force)
-        else:
-            self._evaluate(force)
+        self._evaluate(force)
 
     def _evaluate(self, force=False):
         for e in self._dataset:
@@ -42,13 +28,7 @@ class ClassificationEvaluator(Evaluator):
 
             self._process(data, answer)
 
-    def _evaluate_mp(self, n_process, force=False):
-        pool = Pool(n_process)
-        args = [[e[0], e[1]] for e in self._dataset]
-        pool.map(self._process, args)
-
     def _process(self, data, answer):
-
         pred = self._classifier.classify(data)
 
         if answer == pred:
