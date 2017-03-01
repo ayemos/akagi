@@ -16,7 +16,6 @@ requirements = [
 ]
 
 test_requirements = [
-    'moto>=0.4'
 ]
 
 setup(

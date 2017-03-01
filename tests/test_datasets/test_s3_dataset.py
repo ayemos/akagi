@@ -10,7 +10,6 @@ Tests for `osho.datasets.s3_dataset` module.
 
 
 import unittest
-from moto import mock_s3
 
 from osho.datasets import S3Dataset
 
@@ -19,24 +18,20 @@ class TestS3Dataset(unittest.TestCase):
 
     def setUp(self):
         self.bucket = 'dummy_bucket'
-        self.images_prefix = 'dummy_images_prefix'
+        self.prefix = 'dummy_prefix'
+        self.keys = [
+                '/dummy_prefix/1.jpg',
+                '/dummy_prefix/2.jpg',
+                '/dummy_prefix/3.jpg'
+                ]
 
-        self.image_keys = ["%s/%s" % (self.images_prefix, k) for k in [
-            'food/1.jpg',
-            'food/2.jpg',
-            'nonfood/1.jpg',
-            'nonfood/2.jpg',
-            'nonfood/3.jpg'
-            ]]
-
-    @mock_s3
     def testByPrefix(self):
-        pass
+        dataset = S3Dataset(self.bucket, self.keys)
+        self.assertEqual(dataset.get_length(), 3)
+
+    def testBucketNotExist(self):
+        with self.assertRaises(Exception):
+            S3Dataset.by_prefix(self.bucket, self.prefix)
 
     def tearDown(self):
         pass
-
-    def _fixture(self):
-        for k in self.image_keys:
-            s3.resource('s3').Object(self.bucket, k).put(Body='dummy')
-
