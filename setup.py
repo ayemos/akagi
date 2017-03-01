@@ -20,7 +20,7 @@ test_requirements = [
 
 setup(
     name='osho',
-    version='0.1.0',
+    version='0.1.1',
     description="Machine Learning test framework.",
     long_description=readme + '\n\n' + history,
     author="Yuichiro Someya",
