@@ -5,6 +5,7 @@ import psycopg2
 from akagi.datasource import Datasource
 from akagi.data_file_bundles import S3DataFileBundle
 from akagi.query import UnloadQuery
+from akagi.log import logger
 
 
 class RedshiftDatasource(Datasource):
@@ -13,7 +14,7 @@ class RedshiftDatasource(Datasource):
     '''
 
     @classmethod
-    def for_query(cls, query, bucket_name, schema, table,
+    def for_query(cls, query, schema, table, bucket_name,
                   db_host=None, db_name=None, db_user=None, db_pass=None, db_port=None, sort=False):
         bundle = S3DataFileBundle.for_table(
                 bucket_name,
@@ -38,7 +39,10 @@ class RedshiftDatasource(Datasource):
         self.activate()
 
     def activate(self):
+        logger.info("Deleting old files on s3...")
         self.bundle.clear()
+        logger.info("Query sent to Redshift")
+        logger.info("\n" + self.query.sql + "\n")
         self._cursor.execute(self.query.sql)
 
     def __iter__(self):
