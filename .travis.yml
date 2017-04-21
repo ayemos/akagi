@@ -17,7 +17,7 @@ language: python
 python: 3.5
 script: tox -e ${TOXENV}
 after_success:
-  - bundle exec codeclimate-test-reporter
+  - codeclimate-test-reporter
 addons:
   code_climate:
     repo_token:
