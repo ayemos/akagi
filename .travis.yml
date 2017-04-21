@@ -1,13 +1,12 @@
 deploy:
-  on:
-    condition: "$TOXENV == py35"
-    repo: ayemos/akagi
-    tags: true
-  user: ayemos
   provider: pypi
-  distributions: sdist bdist_wheel
+  user: ayemos
   password:
-    secure: h/el7VKLi6D417JJAI3HpVruN38fbtuHBp+BXlBZ/5Iz6a8v2XcDb4dv59IfGJ/mlA9p3+ies1N+1xUayZKOuyoOU7tdgH6LZ2qHvZUsIuaB2tLuUfdQFnezj02kzmvvG+78VXHUeywoCZk3XizK4yNxEnBRg05Et3/Q2h63Eug9n3EKS/9hZqGLg9IJrIOZI0pDRx0OGFEx1d/dfRj8eeO1wyDq0DslMiADsE3t0hfN8L/rv8QU5LADSEcl+2PMW29Jk9ScEbWYczl7oz73C5DEnoozhSKLLybDg1OYtIBfQkwtzXJBFlVDGw1sg1tMFdH5u7rMV23TnlmIkvrRF4vm7XqkPL1xZw4NzBmgSaEDQOrXq1jFJYe4zvNdNmH/ZwRh5ikhK/IJUL4G9vGDaReFkOs76h8sOEh9zrH4LTJ7Hm+PdRmG+imOrFmcTDEYn/E0MxIiGd59PGgoIJCTTwxCD/ISzjKD41ledIEaiaYBzeWlYp8GMZ+ClutTueJ0+BuqtFiI9MFdoUzncgz0hVXovEuZm5tWIxKXYfC5CT0mJtE4wwDzCliOUYNKSbKotFbSJpztBLE93iG0+BhAckbdJHPi4h9xSE5qTqqizaQ+s7ttuViaIb9AxmgEo0oPTb117zzb6Xz79iNs4tnJ46NEJIMoM+2iO9U5jJ2XAAM=
+    secure: qqrWtlEbYA7/AC1ySYJkqwYtqnoThCPd9j5C7L1ZTxYWgDzAst9bgpKdtT25CR9uVKs1aVgdsNQWB+yCNHFJ+7OX/67Yb69WDLDVJuVQpL8Q5OWqD3VtO0CJmK35Vzpss9nYGEQknxKJZrbKBBih86cyBlUjvmrEnt/m5gQSet+QJ1bMDIzVy0DnZh7sepgWn7/syqgOq4nQA0gEfFeKt01onIg+aq60WbKWmdAX8EqMpEK7XXkn6fwS6I3GrFb4rksdasvSb0BrhPv1MugmHOiUxXl6bWkMU8og+W5b5yqyb0+VAVmN6Cf3sg4j52BvfBI2B0SzTMI0E44qUngJDo1xzDM85c4A21Z9EdEp8Ich1ML7whQYci6S7BDEWUPc/2D3mNKybbnEuCdpBdHdXW0MHCvYrbwmbWDda6CM27XEf1JtYs8xxDX2GBvvzaB8DaV0ghVA0Q0HZyPkuOhX697Cv18HOGZGhMWtmEmB5JfVpg6Hh2mxJn7Vx20PGRyi9N9V3rT3bYxYnioaq0u8BTjunXPR+xDCkGlg3Sm3pYBJSrohckqtD7qQGqbiQGAITbRUkRWpu0iDaT5wrOU+jyLNbKECMZtOig7AQZo+EI1Xg+SVlp7LoLYlNmLpd72CVMV7ElWjpvRvvLGCe6Dl0zUZcIHnqmBDETAlRuEheYY=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: ayemos/akagi
 env:
 - TOXENV=py35
 - TOXENV=py34
