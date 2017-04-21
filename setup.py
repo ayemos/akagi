@@ -19,7 +19,7 @@ test_requirements = [
 setup(
     name='akagi',
     version='0.1.0',
-    description="Machine Learning test framework.",
+    description="Codenize your data sources",
     long_description=readme,
     author="Yuichiro Someya",
     author_email='ayemos.y@gmail.com',
