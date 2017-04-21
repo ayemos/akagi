@@ -49,7 +49,7 @@ Example
 RedshiftDatasource
 ++++++++++++++++++
 
-:: python
+.. code:: python
 
   ds = RedshiftDatasource.for_query(
           'log-redshift-unload.ap-northeast-1', # S3 Bucket for intermediate storage
@@ -68,7 +68,7 @@ S3Datasource
 ++++++++++++
 
 
-:: python
+.. code:: python
 
   ds = S3Datasource.for_prefix(
           'image-data.ap-northeast-1',
