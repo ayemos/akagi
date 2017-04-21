@@ -25,7 +25,7 @@ akagi
 Features
 ---------
 
--   TODO
+akagi supports *iter* and *save* interface for various datasources such as Amazon Redshift, Amazon S3 (more in future).
 
 -------------
 Installation
