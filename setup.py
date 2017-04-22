@@ -8,8 +8,7 @@ with open('README.rst') as readme_file:
 
 requirements = [
     'boto3>=1.4.4',
-    'numpy>=1.12',
-    'tqdm>=4.11'
+    'psycopg2>=2.7'
 ]
 
 test_requirements = [

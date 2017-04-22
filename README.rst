@@ -51,17 +51,16 @@ RedshiftDatasource
 
 .. code:: python
 
-  ds = RedshiftDatasource.for_query(
+  with RedshiftDatasource.for_query(
           'log-redshift-unload.ap-northeast-1', # S3 Bucket for intermediate storage
           'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
           'logs', # schema
           'imp' # table (Those two are used to generate unique prefix for S3 object (e.g. logs/imp/20170312_081527)
-          )
+          ) as ds:
+      ds.save('./akagi_test') # save results to local
 
-  ds.save('./akagi_test') # save results to local
-
-  for d in ds:
-      print(d) # iterate on result
+      for d in ds:
+          print(d) # iterate on result
 
 ++++++++++++
 S3Datasource
@@ -70,11 +69,11 @@ S3Datasource
 
 .. code:: python
 
-  ds = S3Datasource.for_prefix(
+  with S3Datasource.for_prefix(
           'image-data.ap-northeast-1',
           'data/image_net/zebra',
-          FileFormat.BINARY
-          )
+          FileFormat.BINARY) as ds:
+      ...
 
 
 --------
