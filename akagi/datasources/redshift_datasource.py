@@ -108,3 +108,7 @@ class RedshiftDatasource(Datasource):
                             self.__pgpass['db_pass']) = args
 
         return self.__pgpass
+
+    def __exit__(self, *exc):
+        self.bundle.clear()
+        return False

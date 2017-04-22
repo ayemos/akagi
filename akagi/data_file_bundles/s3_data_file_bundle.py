@@ -31,6 +31,7 @@ class S3DataFileBundle(DataFileBundle):
 
     def clear(self):
         for obj in self._bucket.objects.filter(Prefix=self.prefix):
+            print(obj.key)
             obj.delete()
 
     @property

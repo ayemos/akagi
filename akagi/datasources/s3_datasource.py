@@ -26,3 +26,6 @@ class S3Datasource(Datasource):
 
     def __iter__(self):
         return iter(self.bundle)
+
+    def __exit__(self, *exc):
+        return False

@@ -10,3 +10,13 @@ class DataFileBundle(object):
 
     def __iter__(self):
         return iter(chain(*self.data_files))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_type):
+        self.clear()
+        return False
+
+    def clear(self):
+        raise NotImplementedError

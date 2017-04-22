@@ -20,3 +20,9 @@ class Datasource(object):
 
             with open(path, 'wb') as f:
                 f.write(d.content)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        raise NotImplementedError
