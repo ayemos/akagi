@@ -6,6 +6,7 @@ from datetime import datetime
 from akagi.iterator import Iterator, FileFormat
 from akagi.data_files.s3_data_file import S3DataFile
 from akagi.data_file_bundle import DataFileBundle
+from akagi.log import logger
 
 
 class S3DataFileBundle(DataFileBundle):
@@ -31,7 +32,7 @@ class S3DataFileBundle(DataFileBundle):
 
     def clear(self):
         for obj in self._bucket.objects.filter(Prefix=self.prefix):
-            print(obj.key)
+            logger.info("Deleting intermediate object on s3: %(key)s" % ({"key": obj.key}))
             obj.delete()
 
     @property
