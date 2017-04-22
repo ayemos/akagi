@@ -42,7 +42,7 @@ class RedshiftDatasource(Datasource):
         logger.info("Deleting old files on s3...")
         self.bundle.clear()
         logger.info("Query sent to Redshift")
-        logger.info("\n" + self.query.sql + "\n")
+        logger.info("\n" + self.query + "\n")  # avoid logging unload query since it has raw credentials inside
         self._cursor.execute(self.query.sql)
 
     def __iter__(self):
