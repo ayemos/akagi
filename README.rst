@@ -25,7 +25,7 @@ akagi
 Features
 ---------
 
-akagi supports *iter* and *save* interface for various datasources such as Amazon Redshift, Amazon S3 (more in future).
+akagi supports *iter* and *save* interface for various data sources such as Amazon Redshift, Amazon S3 (more in future).
 
 -------------
 Installation
@@ -46,12 +46,12 @@ Example
 --------
 
 ++++++++++++++++++
-RedshiftDatasource
+RedshiftDataSource
 ++++++++++++++++++
 
 .. code:: python
 
-  with RedshiftDatasource.for_query(
+  with RedshiftDataSource.for_query(
           'log-redshift-unload.ap-northeast-1', # S3 Bucket for intermediate storage
           'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
           'logs', # schema
@@ -63,13 +63,13 @@ RedshiftDatasource
           print(d) # iterate on result
 
 ++++++++++++
-S3Datasource
+S3DataSource
 ++++++++++++
 
 
 .. code:: python
 
-  with S3Datasource.for_prefix(
+  with S3DataSource.for_prefix(
           'image-data.ap-northeast-1',
           'data/image_net/zebra',
           FileFormat.BINARY) as ds:
