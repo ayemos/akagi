@@ -25,7 +25,7 @@ setup(
     url='https://github.com/ayemos/akagi',
     packages=[
         'akagi',
-        'akagi.datasources',
+        'akagi.data_sources',
         'akagi.data_files',
         'akagi.data_file_bundles',
         'akagi.iterators',

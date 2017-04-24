@@ -1,10 +1,10 @@
-from akagi.datasource import Datasource
+from akagi.data_source import DataSource
 from akagi.data_file_bundles import S3DataFileBundle
 from akagi.iterator import FileFormat
 
 
-class S3Datasource(Datasource):
-    '''S3Datasource replesents a set of files on Amazon S3 bucket.
+class S3DataSource(DataSource):
+    '''S3DataSource replesents a set of files on Amazon S3 bucket.
     '''
 
     @classmethod
@@ -15,15 +15,15 @@ class S3Datasource(Datasource):
                 file_format
                 )
 
-        return S3Datasource(bundle)
+        return S3DataSource(bundle)
 
     @classmethod
     def for_key(cls, bucket_name, key, file_format=FileFormat.BINARY):
-        return S3Datasource.for_prefix(bucket_name, key, file_format)
+        return S3DataSource.for_prefix(bucket_name, key, file_format)
 
     @classmethod
     def for_keys(cls, bucket_name, keys, file_format=FileFormat.BINARY):
-        return S3Datasource.for_prefix(bucket_name, key, file_format)
+        return S3DataSource.for_prefix(bucket_name, key, file_format)
 
     def __init__(self, bundle):
         self.bundle = bundle

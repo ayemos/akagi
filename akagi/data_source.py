@@ -3,8 +3,8 @@ import os
 from akagi.log import logger
 
 
-class Datasource(object):
-    '''Datasource is an base class of all data sources
+class DataSource(object):
+    '''DataSource is an base class of all data sources
     '''
 
     def save(self, tar_dir):

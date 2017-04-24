@@ -2,14 +2,14 @@ import os
 
 import psycopg2
 
-from akagi.datasource import Datasource
+from akagi.data_source import DataSource
 from akagi.data_file_bundles import S3DataFileBundle
 from akagi.query import UnloadQuery
 from akagi.log import logger
 
 
-class RedshiftDatasource(Datasource):
-    '''RedshiftDatasource replesents a set of row data as a result of query param.
+class RedshiftDataSource(DataSource):
+    '''RedshiftDataSource replesents a set of row data as a result of query param.
     It uses UNLOAD command and intermediate Amazon S3 bucket.
     '''
 
@@ -24,7 +24,7 @@ class RedshiftDatasource(Datasource):
 
         query = UnloadQuery.wrap(query, bundle, sort)
 
-        return RedshiftDatasource(bundle, query, db_host, db_name, db_user, db_pass, db_port)
+        return RedshiftDataSource(bundle, query, db_host, db_name, db_user, db_pass, db_port)
 
     def __init__(self, bundle, query, db_host, db_name, db_user, db_pass, db_port):
         self.bundle = bundle
