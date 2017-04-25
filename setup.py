@@ -28,8 +28,7 @@ setup(
         'akagi.data_sources',
         'akagi.data_files',
         'akagi.data_file_bundles',
-        'akagi.iterators',
-        'akagi.utils'
+        'akagi.iterators'
     ],
     package_dir={'akagi':
                  'akagi'},
