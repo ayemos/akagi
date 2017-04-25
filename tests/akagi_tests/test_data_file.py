@@ -2,20 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-test_akagi
+test_data_file
 ----------------------------------
 
-Tests for `akagi` module.
+Tests for `akagi.data_file` module.
 """
 
 
 import unittest
 
 
-class TestAkagi(unittest.TestCase):
+class TestDataFile(unittest.TestCase):
 
     def setUp(self):
         pass
 
     def tearDown(self):
         pass
+

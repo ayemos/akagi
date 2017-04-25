@@ -14,6 +14,8 @@ akagi
 .. image:: https://pyup.io/repos/github/ayemos/akagi/shield.svg
   :target: https://pyup.io/repos/github/ayemos/akagi/
 
+.. image:: https://codeclimate.com/github/ayemos/akagi/badges/coverage.svg
+  :target: https://codeclimate.com/github/ayemos/akagi/coverage
 
 ###########
 akagi

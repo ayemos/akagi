@@ -9,16 +9,13 @@ class S3DataFile(DataFile):
         self.obj = obj
         self.iterator_class = iterator_class
 
-
     @property
     def filename(self):
         return self.key
 
-
     @property
     def key(self):
         return self.obj.key
-
 
     @property
     def content(self):
@@ -27,7 +24,5 @@ class S3DataFile(DataFile):
         else:
             return self.obj.get()["Body"].read()
 
-
     def __iter__(self):
         return iter(self.iterator_class(self.content))
-
