@@ -14,8 +14,7 @@ class RedshiftDataSource(DataSource):
     '''
 
     @classmethod
-    def for_query(cls, query, schema, table, bucket_name,
-                  db_host=None, db_name=None, db_user=None, db_pass=None, db_port=None, sort=False, activate=True):
+    def for_query(cls, query, schema, table, bucket_name, db_conf={}, sort=False, activate=True):
         bundle = S3DataFileBundle.for_table(
                 bucket_name,
                 schema,
@@ -24,16 +23,12 @@ class RedshiftDataSource(DataSource):
 
         query = UnloadQuery.wrap(query, bundle, sort)
 
-        return RedshiftDataSource(bundle, query, db_host, db_name, db_user, db_pass, db_port, activate)
+        return RedshiftDataSource(bundle, query, db_conf, activate)
 
-    def __init__(self, bundle, query, db_host, db_name, db_user, db_pass, db_port, activate=True):
+    def __init__(self, bundle, query, db_conf={}, activate=True):
         self.bundle = bundle
         self.query = query
-        self._db_host = db_host
-        self._db_name = db_name
-        self._db_user = db_user
-        self._db_pass = db_pass
-        self._db_port = db_port
+        self.__db_conf = db_conf
         self.__pgpass = None
 
         if activate:
@@ -51,48 +46,21 @@ class RedshiftDataSource(DataSource):
 
     @property
     def _connection(self):
-        return psycopg2.connect(
-                host=self.db_host, dbname=self.db_name,
-                user=self.db_user, password=self.db_pass, port=self.db_port)
+        return psycopg2.connect(**self._db_conf)
 
     @property
     def _cursor(self):
         return self._connection.cursor()
 
     @property
-    def db_host(self):
-        if self._db_host is None:
-            self._db_host = os.getenv("REDSHIFT_DB_HOST", self._pgpass['db_host'])
-
-        return self._db_host
-
-    @property
-    def db_name(self):
-        if self._db_name is None:
-            self._db_name = os.getenv("REDSHIFT_DB_NAME", self._pgpass['db_name'])
-
-        return self._db_name
-
-    @property
-    def db_pass(self):
-        if self._db_pass is None:
-            self._db_pass = os.getenv("REDSHIFT_DB_PASS", self._pgpass['db_pass'])
-
-        return self._db_pass
-
-    @property
-    def db_user(self):
-        if self._db_user is None:
-            self._db_user = os.getenv('REDSHIFT_DB_USER', self._pgpass['db_user'])
-
-        return self._db_user
-
-    @property
-    def db_port(self):
-        if self._db_port is None:
-            self._db_port = os.getenv('REDSHIFT_DB_PORT', self._pgpass['db_port'])
-
-        return self._db_port
+    def _db_conf(self):
+        return {
+                'host':     self.__db_conf.get('host') or os.getenv('REDSHIFT_DB_HOST', self._pgpass['db_host']),
+                'user':     self.__db_conf.get('user') or os.getenv('REDSHIFT_DB_USER', self._pgpass['db_user']),
+                'dbname':   self.__db_conf.get('dbname') or os.getenv('REDSHIFT_DB_NAME', self._pgpass['db_name']),
+                'password': self.__db_conf.get('password') or os.getenv('REDSHIFT_DB_PASS', self._pgpass['db_pass']),
+                'port':     self.__db_conf.get('port') or os.getenv('REDSHIFT_DB_PORT', self._pgpass['db_port'])
+                }
 
     @property
     def _pgpass(self):

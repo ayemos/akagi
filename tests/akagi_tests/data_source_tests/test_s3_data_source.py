@@ -13,6 +13,8 @@ import unittest
 import re
 
 from akagi.data_sources import RedshiftDataSource
+from akagi.iterator import FileFormat
+from akagi.iterators import CSVIterator
 
 
 class TestS3DataSource(unittest.TestCase):
@@ -25,4 +27,6 @@ class TestS3DataSource(unittest.TestCase):
 
     def test_init(self):
         self.assertEqual(self.ds_1.bundle.bucket_name, 'bucket_1')
+        self.assertEqual(self.ds_1.bundle.file_format, FileFormat.CSV)
+        self.assertEqual(self.ds_1.bundle.iterator_class, CSVIterator)
         self.assertTrue(re.match(r'^schema_1_export/table_1/[0-9]{8}_[0-9]{6}/$', self.ds_1.bundle.prefix))
