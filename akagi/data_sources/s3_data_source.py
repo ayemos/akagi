@@ -21,10 +21,6 @@ class S3DataSource(DataSource):
     def for_key(cls, bucket_name, key, file_format=FileFormat.BINARY):
         return S3DataSource.for_prefix(bucket_name, key, file_format)
 
-    @classmethod
-    def for_keys(cls, bucket_name, keys, file_format=FileFormat.BINARY):
-        return S3DataSource.for_prefix(bucket_name, key, file_format)
-
     def __init__(self, bundle):
         self.bundle = bundle
 

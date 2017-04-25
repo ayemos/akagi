@@ -15,7 +15,7 @@ class RedshiftDataSource(DataSource):
 
     @classmethod
     def for_query(cls, query, schema, table, bucket_name,
-                  db_host=None, db_name=None, db_user=None, db_pass=None, db_port=None, sort=False):
+                  db_host=None, db_name=None, db_user=None, db_pass=None, db_port=None, sort=False, activate=True):
         bundle = S3DataFileBundle.for_table(
                 bucket_name,
                 schema,
@@ -24,9 +24,9 @@ class RedshiftDataSource(DataSource):
 
         query = UnloadQuery.wrap(query, bundle, sort)
 
-        return RedshiftDataSource(bundle, query, db_host, db_name, db_user, db_pass, db_port)
+        return RedshiftDataSource(bundle, query, db_host, db_name, db_user, db_pass, db_port, activate)
 
-    def __init__(self, bundle, query, db_host, db_name, db_user, db_pass, db_port):
+    def __init__(self, bundle, query, db_host, db_name, db_user, db_pass, db_port, activate=True):
         self.bundle = bundle
         self.query = query
         self._db_host = db_host
@@ -36,7 +36,8 @@ class RedshiftDataSource(DataSource):
         self._db_port = db_port
         self.__pgpass = None
 
-        self.activate()
+        if activate:
+            self.activate()
 
     def activate(self):
         logger.info("Deleting old files on s3...")
