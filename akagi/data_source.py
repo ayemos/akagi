@@ -8,6 +8,7 @@ class DataSource(object):
     '''
 
     def save(self, tar_dir):
+        paths = []
         for d in self.bundle.data_files:
 
             path = os.path.expanduser(os.path.join(tar_dir, d.key))
@@ -20,6 +21,9 @@ class DataSource(object):
 
             with open(path, 'wb') as f:
                 f.write(d.raw_content)
+                paths.append(path)
+
+        return paths
 
     def __enter__(self):
         return self
