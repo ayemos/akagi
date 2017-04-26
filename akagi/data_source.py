@@ -19,10 +19,13 @@ class DataSource(object):
             logger.info("Saved %(key)s to %(path)s" % ({"key": d.key, "path": path}))
 
             with open(path, 'wb') as f:
-                f.write(d.content)
+                f.write(d.raw_content)
 
     def __enter__(self):
         return self
 
     def __exit__(self, *exc):
         raise NotImplementedError
+
+    def __iter__(self):
+        return iter(self.bundle)

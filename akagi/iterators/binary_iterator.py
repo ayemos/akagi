@@ -1,5 +1,4 @@
 import csv
-from io import StringIO
 
 
 class BinaryIterator(object):

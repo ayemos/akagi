@@ -1,5 +1,6 @@
 import csv
-from io import StringIO
+from six import StringIO
+import six
 
 
 class CSVIterator(object):
@@ -7,4 +8,9 @@ class CSVIterator(object):
         self.content = content
 
     def __iter__(self):
-        return csv.reader(StringIO(self.content.decode('utf-8')))
+        if six.PY2:
+            content = self.content
+        else:
+            content = self.content.decode('utf-8')
+
+        return csv.reader(StringIO(content))

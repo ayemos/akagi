@@ -10,11 +10,11 @@ Tests for `akagi.s3_data_file` module.
 
 
 import io
-import gzip
 import unittest
 
 from akagi.iterators import CSVIterator
 from akagi.data_files import S3DataFile
+from akagi.utils import gzip_compress
 
 
 class TestS3DataFile(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestS3DataFile(unittest.TestCase):
 
     def setUp(self):
         self.keys = ['key_1', 'key_2.gz']
-        self.objs = [b"foo,bar,baz\n1,2,3", gzip.compress(b"foo,bar,baz\n1,2,3")]
+        self.objs = [b"foo,bar,baz\n1,2,3", gzip_compress(b"foo,bar,baz\n1,2,3")]
 
         self.obj_1 = TestS3DataFile.S3ObjMock(self.keys[0], self.objs[0])
         self.obj_gzip = TestS3DataFile.S3ObjMock(self.keys[1], self.objs[1])

@@ -1,5 +1,4 @@
-import gzip
-import io
+from akagi.utils import gzip_decompress
 
 from akagi.data_file import DataFile
 
@@ -14,15 +13,18 @@ class S3DataFile(DataFile):
         return self.key
 
     @property
-    def key(self):
-        return self.obj.key
+    def key(self): return self.obj.key
+
+    @property
+    def raw_content(self):
+        return self.obj.get()["Body"].read()
 
     @property
     def content(self):
         if self._is_gzip():
-            return gzip.decompress(self.obj.get()["Body"].read())
+            return gzip_decompress(self.obj.get()["Body"].read())
         else:
-            return self.obj.get()["Body"].read()
+            return self.raw_content
 
     def __iter__(self):
         return iter(self.iterator_class(self.content))

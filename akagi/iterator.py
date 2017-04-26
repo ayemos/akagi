@@ -1,9 +1,7 @@
 from akagi.iterators import CSVIterator, BinaryIterator
 
-from enum import Enum
 
-
-class FileFormat(Enum):
+class FileFormat(object):
     CSV = 1
     BINARY = 2
 

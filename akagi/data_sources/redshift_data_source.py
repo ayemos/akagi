@@ -41,9 +41,6 @@ class RedshiftDataSource(DataSource):
         logger.info("\n" + self.query.body + "\n")  # avoid logging unload query since it has raw credentials inside
         self._cursor.execute(self.query.sql)
 
-    def __iter__(self):
-        return iter(self.bundle)
-
     @property
     def _connection(self):
         return psycopg2.connect(**self._db_conf)
