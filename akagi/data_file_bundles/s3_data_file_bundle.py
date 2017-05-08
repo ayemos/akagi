@@ -15,11 +15,16 @@ class S3DataFileBundle(DataFileBundle):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         prefix = "%(bucket_prefix)s/%(schema)s_export/%(table)s/%(timestamp)s/" % locals()
 
-        return S3DataFileBundle(bucket_name, prefix, FileFormat.CSV)
+        return S3DataFileBundle(bucket_name, prefix=prefix, file_format=FileFormat.CSV)
 
-    def __init__(self, bucket_name, prefix, file_format):
+    def __init__(self, bucket_name, prefix=None, keys=None, file_format=FileFormat.CSV):
         self.bucket_name = bucket_name
         self.prefix = self._normalize_path(prefix)
+        self.keys = keys
+
+        if self.prefix == None and self.keys == None:
+            raise Exception("Either prefix or keys must be set.")
+
         self.file_format = file_format
         self.iterator_class = Iterator.get_iterator_class(file_format)
 
@@ -27,8 +32,12 @@ class S3DataFileBundle(DataFileBundle):
 
     @property
     def data_files(self):
-        return [S3DataFile(obj, self.iterator_class)
-                for obj in self._bucket.objects.filter(Prefix=self.prefix)]
+        if self.prefix is not None:
+            return [S3DataFile(obj, self.iterator_class)
+                    for obj in self._bucket.objects.filter(Prefix=self.prefix)]
+        else:
+            return [S3DataFile(self._bucket.Object(key), self.iterator_class)
+                    for key in self.keys]
 
     def clear(self):
         for obj in self._bucket.objects.filter(Prefix=self.prefix):
@@ -78,4 +87,7 @@ class S3DataFileBundle(DataFileBundle):
         return self.__s3
 
     def _normalize_path(self, path):
-        return re.sub(r'^/', '', re.sub(r'\/{2,}', '/', path))
+        if path is None:
+            return None
+        else:
+            return re.sub(r'^/', '', re.sub(r'\/{2,}', '/', path))

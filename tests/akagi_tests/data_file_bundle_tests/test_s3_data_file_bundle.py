@@ -17,7 +17,7 @@ from akagi.data_file_bundles import S3DataFileBundle
 
 class TestS3DataFile(unittest.TestCase):
     def setUp(self):
-        self.bundle_1 = S3DataFileBundle('bucket_1', 'prefix_1', 'csv')
+        self.bundle_1 = S3DataFileBundle('bucket_1', prefix='prefix_1', file_format='csv')
         self.bundle_2 = S3DataFileBundle.for_table('bucket_1', 'schema_1', 'table_1', bucket_prefix='/prefix_1')
 
     def test_init(self):
