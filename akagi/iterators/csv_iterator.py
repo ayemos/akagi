@@ -7,10 +7,16 @@ class CSVIterator(object):
     def __init__(self, content):
         self.content = content
 
-    def __iter__(self):
-        if six.PY2:
-            content = self.content
-        else:
-            content = self.content.decode('utf-8')
+    @classmethod
+    def open_file(cls, path):
+        return open(path, 'r')
 
-        return csv.reader(StringIO(content))
+    @classmethod
+    def decode(cls, content):
+        if six.PY2:
+            return content
+        else:
+            return content.decode('utf-8')
+
+    def __iter__(self):
+        return csv.reader(StringIO(self.content))

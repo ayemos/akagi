@@ -7,6 +7,13 @@ class FileFormat(object):
 
 
 class Iterator(object):
+    @classmethod
+    def open_file(self, path):
+        raise NotImplementedError
+
+    @classmethod
+    def decode(self, content):
+        raise NotImplementedError
 
     @classmethod
     def get_iterator_class(cls, file_format):

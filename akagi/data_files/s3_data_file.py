@@ -27,4 +27,5 @@ class S3DataFile(DataFile):
             return self.raw_content
 
     def __iter__(self):
-        return iter(self.iterator_class(self.content))
+        cls = self.iterator_class
+        return iter(cls(cls.decode(self.content)))
