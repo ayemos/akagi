@@ -8,7 +8,8 @@ with open('README.rst') as readme_file:
 
 requirements = [
     'boto3>=1.4.4',
-    'psycopg2>=2.7'
+    'psycopg2>=2.7',
+    'mysqlclient>=1.3.10'
 ]
 
 test_requirements = [

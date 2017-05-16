@@ -16,9 +16,9 @@ class Query(object):
         else:
             return self._body
 
-
     def __str__(self):
         return self.body
+
 
 class UnloadQuery(Query):
     def __init__(self, body, bundle, sort=False):
