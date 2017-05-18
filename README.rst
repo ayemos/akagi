@@ -48,6 +48,20 @@ Example
 --------
 
 ++++++++++++++++++
+MySQLDataSource
+++++++++++++++++++
+
+.. code:: python
+
+  with MySQLDataSource.for_query(
+          'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
+          ) as ds:
+      ds.save('./akagi_test') # save results to local
+
+      for d in ds:
+          print(d) # iterate on result
+
+++++++++++++++++++
 RedshiftDataSource
 ++++++++++++++++++
 
@@ -77,6 +91,19 @@ S3DataSource
           FileFormat.BINARY) as ds:
       ...
 
+++++++++++++++++++
+LocalDataSource
+++++++++++++++++++
+
+.. code:: python
+
+  with LocalDataSource.for_path(
+        './PATH/TO/YOUR/DATA/DIR',
+        'csv') as ds:
+      ds.save('./akagi_test') # save results to local
+
+      for d in ds:
+          print(d) # iterate on result
 
 --------
 Credits
