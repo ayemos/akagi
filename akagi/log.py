@@ -3,7 +3,7 @@ import os
 import logging
 
 logger = logging.getLogger('akagi')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 sh = logging.StreamHandler(sys.stdout)

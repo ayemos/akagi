@@ -7,6 +7,13 @@ class DataSource(object):
     '''DataSource is an base class of all data sources
     '''
 
+    def __init__(self, name, bundle):
+        self.name = name
+        self.bundle = self._find_bundle or bundle
+
+        self.freeze()
+        self.save()
+
     def save(self, tar_dir, force=False):
         paths = []
 
@@ -27,6 +34,12 @@ class DataSource(object):
             paths.append(path)
 
         return paths
+
+    def freeze(self):
+        pass
+
+    def _find_bundle(self, bundle):
+        pass
 
     def __enter__(self):
         return self
