@@ -68,10 +68,10 @@ RedshiftDataSource
 .. code:: python
 
   with RedshiftDataSource.for_query(
-          'log-redshift-unload.ap-northeast-1', # S3 Bucket for intermediate storage
           'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
           'logs', # schema
-          'imp' # table (Those two are used to generate unique prefix for S3 object (e.g. logs/imp/20170312_081527)
+          'imp', # table (Those two are used to generate unique prefix for S3 object (e.g. logs/imp/20170312_081527)
+          'log-redshift-unload.ap-northeast-1', # S3 Bucket for intermediate storage
           ) as ds:
       ds.save('./akagi_test') # save results to local
 
