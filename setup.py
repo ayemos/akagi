@@ -18,7 +18,7 @@ test_requirements = [
 
 setup(
     name='akagi',
-    version='0.1.12',
+    version='0.1.13',
     description="Codenize your data sources",
     long_description=readme,
     author="Yuichiro Someya",
