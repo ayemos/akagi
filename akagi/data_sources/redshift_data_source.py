@@ -14,15 +14,15 @@ class RedshiftDataSource(DataSource):
     '''
 
     @classmethod
-    def for_query(cls, query, bucket_name, db_conf={}, sort=False, activate=True):
-        bundle = S3DataFileBundle.for_table(bucket_name)
+    def for_query(cls, query, schema, table, bucket_name, db_conf={}, sort=False, activate=True):
+        bundle = S3DataFileBundle.for_table(bucket_name, schema, table)
 
         query = UnloadQuery.wrap(query, bundle, sort)
 
         return RedshiftDataSource(bundle, query, db_conf, activate)
 
-    def __init__(self, name, bundle, query, db_conf={}, activate=True):
-        super(RedshiftDataSource, self).__init__(name, bundle)
+    def __init__(self, bundle, query, db_conf={}, activate=True):
+        super(RedshiftDataSource, self).__init__(bundle)
         self.query = query
         self.__db_conf = db_conf
         self.__pgpass = None
