@@ -77,4 +77,4 @@ class RedshiftDataSource(DataSource):
         return False
 
     def __iter__(self):
-        return self.bundle
+        return self.bundle.__iter__()
