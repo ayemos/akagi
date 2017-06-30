@@ -6,10 +6,6 @@ from akagi.log import logger
 class DataSource(object):
     '''DataSource is an base class of all data sources
     '''
-
-    def __init__(self, bundle):
-        self.bundle = bundle
-
     def save(self, tar_dir, force=False):
         paths = []
 
@@ -35,7 +31,8 @@ class DataSource(object):
         return self
 
     def __exit__(self, *exc):
-        raise NotImplementedError
+        return False
 
     def __iter__(self):
-        return iter(self.bundle)
+        raise NotImplementedError
+

@@ -22,7 +22,7 @@ class RedshiftDataSource(DataSource):
         return RedshiftDataSource(bundle, query, db_conf, activate)
 
     def __init__(self, bundle, query, db_conf={}, activate=True):
-        super(RedshiftDataSource, self).__init__(bundle)
+        self.bundle = bundle
         self.query = query
         self.__db_conf = db_conf
         self.__pgpass = None
@@ -33,9 +33,10 @@ class RedshiftDataSource(DataSource):
     def activate(self):
         logger.info("Deleting old files on s3...")
         self.bundle.clear()
-        logger.info("Sending query to Redshift")
+        logger.info("Executing query on Redshift")
         logger.debug("\n" + self.query.body + "\n")  # avoid logging unload query since it has raw credentials inside
         self._cursor.execute(self.query.sql)
+        logger.info("Finished")
 
     @property
     def _connection(self):
@@ -74,3 +75,6 @@ class RedshiftDataSource(DataSource):
     def __exit__(self, *exc):
         self.bundle.clear()
         return False
+
+    def __iter__(self):
+        return self.bundle
