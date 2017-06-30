@@ -34,5 +34,5 @@ class S3DataSource(DataSource):
     def __init__(self, bundle):
         self.bundle = bundle
 
-    def __exit__(self, *exc):
-        return False
+    def __iter__(self):
+        return self.bundle
