@@ -37,9 +37,9 @@ class MySQLDataSource(DataSource):
     def __iter__(self):
         self.__result = []
         c = self._connection.cursor()
-        logger.info("Executing query...")
+        logger.debug("Executing query...")
         c.execute(self.query.body)
-        logger.info("Finished.")
+        logger.debug("Finished.")
 
         return iter(c.fetchall())
 

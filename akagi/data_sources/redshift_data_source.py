@@ -31,12 +31,12 @@ class RedshiftDataSource(DataSource):
             self.activate()
 
     def activate(self):
-        logger.info("Deleting old files on s3...")
+        logger.debug("Deleting old files on s3...")
         self.bundle.clear()
-        logger.info("Executing query on Redshift")
+        logger.debug("Executing query on Redshift")
         logger.debug("\n" + self.query.body + "\n")  # avoid logging unload query since it has raw credentials inside
         self._cursor.execute(self.query.sql)
-        logger.info("Finished")
+        logger.debug("Finished")
 
     @property
     def _connection(self):

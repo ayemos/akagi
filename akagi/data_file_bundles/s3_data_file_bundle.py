@@ -41,7 +41,7 @@ class S3DataFileBundle(DataFileBundle):
 
     def clear(self):
         for obj in self._bucket.objects.filter(Prefix=self.prefix):
-            logger.info("Deleting intermediate object on s3: %(key)s" % ({"key": obj.key}))
+            logger.debug("Deleting intermediate object on s3: %(key)s" % ({"key": obj.key}))
             obj.delete()
 
     @property

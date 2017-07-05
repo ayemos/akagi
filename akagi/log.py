@@ -16,4 +16,4 @@ fh.setLevel(logging.DEBUG)  # log all
 
 logger.addHandler(sh)
 logger.addHandler(fh)
-logger.info("Logged to %(log_file_path)s" % locals())
+logger.debug("Logged to %(log_file_path)s" % locals())
