@@ -53,6 +53,8 @@ MySQLDataSource
 
 .. code:: python
 
+  from akagi.data_sources import MySQLDataSource
+
   with MySQLDataSource.for_query(
           'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
           ) as ds:
@@ -66,6 +68,8 @@ RedshiftDataSource
 ++++++++++++++++++
 
 .. code:: python
+
+  from akagi.data_sources import RedshiftDataSource
 
   with RedshiftDataSource.for_query(
           'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
@@ -85,6 +89,8 @@ S3DataSource
 
 .. code:: python
 
+  from akagi.data_sources import S3DataSource
+
   with S3DataSource.for_prefix(
           'image-data.ap-northeast-1',
           'data/image_net/zebra',
@@ -96,6 +102,8 @@ LocalDataSource
 ++++++++++++++++++
 
 .. code:: python
+
+  from akagi.data_sources import LocalDataSource
 
   with LocalDataSource.for_path(
         './PATH/TO/YOUR/DATA/DIR',
