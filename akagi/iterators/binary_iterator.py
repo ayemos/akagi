@@ -1,15 +1,15 @@
 class BinaryIterator(object):
     def __init__(self, content):
-        self.content = content
+        self.body = content.raw_body
+        self._stop = False
 
     @classmethod
     def open_file(self, path):
         return open(path, 'rb')
 
-    @classmethod
-    def decode(self, content):
-        return content
-
-    def __iter__(self):
-        yield self.content
-        raise StopIteration
+    def __next__(self):
+        if self._stop:
+            raise StopIteration
+        else:
+            self._stop = True
+            return self.body

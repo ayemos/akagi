@@ -27,7 +27,7 @@ akagi
 Features
 ---------
 
-akagi supports *iter* and *save* interface for various data sources such as Amazon Redshift, Amazon S3 (more in future).
+akagi enablbes you to access various data sources such as Amazon Redshift, Amazon S3 and Google Spreadsheet (more in future) from python.
 
 -------------
 Installation
@@ -43,25 +43,33 @@ or from source::
   $ cd akagi
   $ python setup.py install
 
+
+--------
+Setup
+--------
+
+To use RedshiftDataSource, you need to set environment variable `AKAGI_UNLOAD_BUCKET` the name
+of the Amazon S3 bucket you like to use as intermediate storage of Redshift Unload command.
+
+
+::
+
+  $ export AKAGI_UNLOAD_BUCKET=xyz-unload-bucket.ap-northeast-1
+
+
+To use SpreadsheetDetaSource, you need to set environment variable `GOOGLE_APPLICATION_CREDENTIAL` to
+indicate your service account credentials file. You can get the credential from `here <https://console.developers.google.com/permissions/serviceaccounts>`_.
+
+Associated client has to have read access to the sheets.
+
+
+::
+
+  $ export GOOGLE_APPLICATION_CREDENTIAL=$HOME/.credentials/service-1a2b.json
+
 --------
 Example
 --------
-
-++++++++++++++++++
-MySQLDataSource
-++++++++++++++++++
-
-.. code:: python
-
-  from akagi.data_sources import MySQLDataSource
-
-  with MySQLDataSource.for_query(
-          'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
-          ) as ds:
-      ds.save('./akagi_test') # save results to local
-
-      for d in ds:
-          print(d) # iterate on result
 
 ++++++++++++++++++
 RedshiftDataSource
@@ -71,16 +79,10 @@ RedshiftDataSource
 
   from akagi.data_sources import RedshiftDataSource
 
-  with RedshiftDataSource.for_query(
-          'select * from (select user_id, path from logs.imp limit 10000)', # Your Query here
-          'logs', # schema
-          'imp', # table (Those two are used to generate unique prefix for S3 object (e.g. logs/imp/20170312_081527)
-          'log-redshift-unload.ap-northeast-1', # S3 Bucket for intermediate storage
-          ) as ds:
-      ds.save('./akagi_test') # save results to local
+  ds = RedshiftDataSource('select * from (select user_id, path from logs.imp limit 10000')
 
-      for d in ds:
-          print(d) # iterate on result
+  for d in ds:
+      print(d) # iterate on result
 
 ++++++++++++
 S3DataSource
@@ -91,11 +93,28 @@ S3DataSource
 
   from akagi.data_sources import S3DataSource
 
-  with S3DataSource.for_prefix(
+  ds = S3DataSource.for_prefix(
           'image-data.ap-northeast-1',
           'data/image_net/zebra',
-          FileFormat.BINARY) as ds:
-      ...
+          file_format='binary')
+
+  for d in ds:
+      print(d) # iterate on result
+
++++++++++++++++++++++
+SpreadsheetDataSource
++++++++++++++++++++++
+
+.. code:: python
+
+  from akagi.data_sources import LocalDataSource
+
+  ds = SpreadsheetDataSource(
+        '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',  # sample sheet provided by Google
+        sheet_range='Class Data!A2:F31')
+
+  for d in ds:
+      print(d) # iterate on result
 
 ++++++++++++++++++
 LocalDataSource
@@ -105,13 +124,12 @@ LocalDataSource
 
   from akagi.data_sources import LocalDataSource
 
-  with LocalDataSource.for_path(
+  ds = LocalDataSource(
         './PATH/TO/YOUR/DATA/DIR',
-        'csv') as ds:
-      ds.save('./akagi_test') # save results to local
+        file_format='csv')
 
-      for d in ds:
-          print(d) # iterate on result
+  for d in ds:
+      print(d) # iterate on result
 
 --------
 Credits

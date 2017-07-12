@@ -1,6 +1,6 @@
 from akagi.data_source import DataSource
-from akagi.data_file_bundles import S3DataFileBundle
-from akagi.iterator import FileFormat
+
+from akagi.data_file import data_files_for_s3_prefix
 
 
 class S3DataSource(DataSource):
@@ -8,31 +8,28 @@ class S3DataSource(DataSource):
     '''
 
     @classmethod
-    def for_prefix(cls, bucket_name, prefix, file_format=FileFormat.BINARY):
-        bundle = S3DataFileBundle(
-                bucket_name,
-                prefix=prefix,
-                file_format=file_format
-                )
-
-        return S3DataSource(bundle)
+    def for_prefix(cls, bucket_name, prefix, file_format='binary', no_cache=False):
+        return S3DataSource(bucket_name, prefix=prefix, keys=None, file_format=file_format, no_cache=no_cache)
 
     @classmethod
-    def for_keys(cls, bucket_name, keys, file_format=FileFormat.BINARY):
-        bundle = S3DataFileBundle(
-                bucket_name,
-                keys=keys,
-                file_format=file_format
-                )
-
-        return S3DataSource(bundle)
+    def for_keys(cls, bucket_name, keys, file_format='binary', no_cache=False):
+        return S3DataSource(bucket_name, prefix=None, keys=keys, file_format=file_format, no_cache=no_cache)
 
     @classmethod
-    def for_key(cls, bucket_name, key, file_format=FileFormat.BINARY):
-        return S3DataSource.for_prefix(bucket_name, key, file_format)
+    def for_key(cls, bucket_name, key, file_format='binary', no_cache=False):
+        return S3DataSource(bucket_name, prefix=None, keys=[key], file_format=file_format, no_cache=no_cache)
 
-    def __init__(self, bundle):
-        self.bundle = bundle
+    def __init__(self, bucket_name, prefix=None, keys=None, file_format='binary', no_cache=False):
+        self._file_format = file_format
+        self._bucket_name = bucket_name
+        self._keys = keys
+        self._prefix = prefix
+        self._no_cache = no_cache
+        self._data_files = None
 
-    def __iter__(self):
-        return self.bundle
+    @property
+    def data_files(self):
+        if self._data_files is None:
+            self._data_files = data_files_for_s3_prefix(self._bucket_name, self._prefix, self._file_format)
+
+        return self._data_files

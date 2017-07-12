@@ -1,7 +1,4 @@
-import csv
-
-
-class CSVIterator(object):
+class SpreadsheetIterator(object):
     def __init__(self, content, skip_errors=True, delimiter=','):
         self.body = content.decoded_body
         self._skip_errors = skip_errors

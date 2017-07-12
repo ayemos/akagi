@@ -9,7 +9,9 @@ with open('README.rst') as readme_file:
 requirements = [
     'boto3>=1.4.4',
     'psycopg2>=2.7',
-    'mysqlclient>=1.3.10'
+    'filetype>=1.0.0',
+    'google-api-python-client>=1.6.3',
+    'google-auth==1.0.2'
 ]
 
 test_requirements = [
@@ -18,7 +20,7 @@ test_requirements = [
 
 setup(
     name='akagi',
-    version='0.1.18',
+    version='0.2.0',
     description="Codenize your data sources",
     long_description=readme,
     author="Yuichiro Someya",
@@ -27,8 +29,7 @@ setup(
     packages=[
         'akagi',
         'akagi.data_sources',
-        'akagi.data_files',
-        'akagi.data_file_bundles',
+        'akagi.contents',
         'akagi.iterators'
     ],
     package_dir={'akagi':
