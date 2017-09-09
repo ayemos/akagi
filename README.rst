@@ -27,7 +27,7 @@ akagi
 Features
 ---------
 
-akagi enablbes you to access various data sources such as Amazon Redshift, Amazon S3 and Google Spreadsheet (more in future) from python.
+akagi enables you to access various data sources such as Amazon Redshift, Amazon S3 and Google Spreadsheet (more in future) from python.
 
 -------------
 Installation
