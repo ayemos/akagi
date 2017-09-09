@@ -11,6 +11,10 @@ def data_files_for_s3_prefix(bucket_name, prefix, file_format='csv'):
             akagi.get_resource('s3').Bucket(bucket_name).objects.filter(Prefix=prefix)]
 
 
+def data_files_for_s3_keys(bucket_name, keys, file_format='csv'):
+    return [DataFile.s3(bucket_name, k, file_format) for k in keys]
+
+
 def data_files_for_dir(dir_path, file_format='csv'):
     return [DataFile.local_file(os.path.join(dir_path, p), file_format) for p in
             os.listdir(dir_path)]

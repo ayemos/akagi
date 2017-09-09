@@ -1,6 +1,6 @@
 from akagi.data_source import DataSource
 
-from akagi.data_file import data_files_for_s3_prefix
+from akagi.data_file import data_files_for_s3_prefix, data_files_for_s3_keys
 
 
 class S3DataSource(DataSource):
@@ -30,6 +30,8 @@ class S3DataSource(DataSource):
     @property
     def data_files(self):
         if self._data_files is None:
-            self._data_files = data_files_for_s3_prefix(self._bucket_name, self._prefix, self._file_format)
-
+            if self._prefix is not None:
+                self._data_files = data_files_for_s3_prefix(self._bucket_name, self._prefix, self._file_format)
+            elif self._keys is not None:
+                self._data_files = data_files_for_s3_keys(self._bucket_name, self._keys, self._file_format)
         return self._data_files
