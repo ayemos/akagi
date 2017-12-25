@@ -3,7 +3,7 @@ import akagi
 
 from akagi.log import logger
 
-from akagi.contents import S3Content, LocalFileContent, SpreadsheetContent
+from akagi.contents import S3Content, LocalFileContent, SpreadsheetContent, URLContent
 
 
 def data_files_for_s3_prefix(bucket_name, prefix, file_format='csv'):
@@ -20,6 +20,10 @@ def data_files_for_dir(dir_path, file_format='csv'):
             os.listdir(dir_path)]
 
 
+def data_files_for_urls(urls, file_format='csv'):
+    return [DataFile.url(url, file_format) for url in urls]
+
+
 class DataFile(object):
     def __init__(self, content):
         self._content = content
@@ -30,6 +34,11 @@ class DataFile(object):
     @classmethod
     def s3(cls, bucket, key, file_format='csv'):
         content = S3Content(bucket, key, file_format)
+        return DataFile(content)
+
+    @classmethod
+    def url(cls, url, file_format='csv'):
+        content = URLContent(url, file_format)
         return DataFile(content)
 
     @classmethod
