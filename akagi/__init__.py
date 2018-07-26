@@ -3,7 +3,7 @@ from __future__ import absolute_import
 # -*- coding: utf-8 -*-
 __author__ = """Yuichiro Someya"""
 __email__ = 'ayemos.y@gmail.com'
-__version__ = '0.2.2'
+__version__ = '0.3.0'
 
 
 import os
