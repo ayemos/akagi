@@ -11,7 +11,7 @@ requirements = [
     'psycopg2>=2.7',
     'filetype>=1.0.0',
     'google-api-python-client>=1.6.3',
-    'google-auth==1.0.2'
+    'google-auth>=1.0.2'
 ]
 
 test_requirements = [
