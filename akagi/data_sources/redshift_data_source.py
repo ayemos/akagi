@@ -75,7 +75,9 @@ class RedshiftDataSource(DataSource):
 
     @property
     def _connection(self):
-        return psycopg2.connect(**self._db_conf)
+        connection = psycopg2.connect(**self._db_conf)
+        connection.autocommit = 'REDSHIFT_DISABLE_AUTOCOMMIT' not in os.environ
+        return connection
 
     @property
     def _cursor(self):
