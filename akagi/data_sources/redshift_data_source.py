@@ -100,16 +100,22 @@ class RedshiftDataSource(DataSource):
     @property
     def _pgpass(self):
         if self.__pgpass is None:
-            self.__pgpass = {}
+            self.__pgpass = {
+                'db_host': '',
+                'db_port': '',
+                'db_name': '',
+                'db_user': '',
+                'db_pass': ''}
 
-            with open(os.path.expanduser(os.path.join('~', '.pgpass'))) as f:
-                args = [s.strip() for s in f.read().split(':')]
+            pgpass_path = os.path.expanduser(os.path.join('~', '.pgpass'))
+            # Load .pgpass file
+            if os.path.isfile(pgpass_path):
+                with open(pgpass_path) as f:
+                    args = [s.strip() for s in f.read().split(':')]
 
-                if len(args) == 5:
-                    (
-                        self.__pgpass['db_host'], self.__pgpass['db_port'],
-                        self.__pgpass['db_name'], self.__pgpass['db_user'],
-                        self.__pgpass['db_pass']) = args
+                    assert len(args) == 5, 'Invalid format .pgpass. Expected `hostname:port:database:username:password`'
+                    self.__pgpass['db_host'], self.__pgpass['db_port'], self.__pgpass['db_name'], \
+                        self.__pgpass['db_user'], self.__pgpass['db_pass'] = args
 
         return self.__pgpass
 
