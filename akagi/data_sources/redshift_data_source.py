@@ -111,11 +111,15 @@ class RedshiftDataSource(DataSource):
             # Load .pgpass file
             if os.path.isfile(pgpass_path):
                 with open(pgpass_path) as f:
-                    args = [s.strip() for s in f.read().split(':')]
-
+                    lines = f.read().split('\n')
+                    assert len(lines) > 0, 'Empty .pgpass file'
+                    args = [s.strip() for s in lines[0].split(':')]
                     assert len(args) == 5, 'Invalid format .pgpass. Expected `hostname:port:database:username:password`'
-                    self.__pgpass['db_host'], self.__pgpass['db_port'], self.__pgpass['db_name'], \
-                        self.__pgpass['db_user'], self.__pgpass['db_pass'] = args
+                    self.__pgpass['db_host'] = args[0]
+                    self.__pgpass['db_port'] = args[1] if args[1] != "*" else ''
+                    self.__pgpass['db_name'] = args[2] if args[2] != "*" else ''
+                    self.__pgpass['db_user'] = args[3]
+                    self.__pgpass['db_pass'] = args[4]
 
         return self.__pgpass
 
